@@ -1,0 +1,92 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+    
+  <div class="row">
+    <div class="col-md-9" *ngIf="showForm" >
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title"> Services' Form</h5>
+        </div>
+        <div class="card-body">
+          <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+            <div class="row">
+              <input type="hidden" class="form-control" placeholder="id" name="id"  [(ngModel)]="servicio.id">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" class="form-control" placeholder="Name" name="nombre" [(ngModel)]="servicio.nombre">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="form-control" placeholder="Description" name="descripcion" [(ngModel)]="servicio.descripcion"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+              </div>
+              <div class="col-md-2 col-xs-2"><br>
+                <button type="submit" class="btn btn-primary btn-block btn-round btn-sm">Save</button>
+              </div>
+              <div class="col-md-2 col-xs-2"><br>
+                <button type="button" class="btn btn-default btn-block btn-round btn-sm" (click)="showForm = false; servicio = null">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" *ngIf="showForm">
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="author">
+            <h5 class="title text-primary">{{servicio.nombre}}</h5>
+            <hr>
+            <p class="description">
+              <b>Description:</b> {{servicio.descripcion}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn btn-primary btn-sm pull-right" (click)="formNewServicio();">
+            Add <i class="fa fa-plus"></i>
+          </button>
+          <h5 class="title">Services' list</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th class="text-right">Actions</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let servicio of servicios">
+                  <td>{{servicio.id}}</td>
+                  <td>{{servicio.nombre}}</td>
+                  <td>{{servicio.descripcion}}</td>
+                  <td class="text-right">
+                    <button class="btn btn-neutral" (click)="selectServicio(servicio)">
+                      <i class="fas fa-external-link-alt fa-2x"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

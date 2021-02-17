@@ -1,0 +1,146 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-9" *ngIf="showForm">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title"> ServicioTecnico's Form</h5>
+        </div>
+        <div class="card-body">
+          <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+            <div class="row">
+              <input type="hidden" class="form-control" placeholder="id" name="id" [(ngModel)]="servicioTecnico.id">
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tecnico</label>
+                  <select class="form-control" name="tecnico" [(ngModel)]="servicioTecnico.tecnicoId">
+                    <option style="font-size: 0.8rem;" [value]="null">Select a tecnico</option>
+                    <option style="font-size: 0.8rem;" *ngFor="let tecnico of tecnicos" [value]="tecnico.id">
+                      {{tecnico.numeroDocumento}} | {{tecnico.nombreCompleto}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Servicio</label>
+                  <select class="form-control" name="servicio" [(ngModel)]="servicioTecnico.servicioId">
+                    <option style="font-size: 0.8rem;" [value]="null">Select a servicio</option>
+                    <option style="font-size: 0.8rem;" *ngFor="let servicio of servicios" [value]="servicio.id">
+                      {{servicio.nombre}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Initial Date</label>
+                  <input type="datetime-local" class="form-control" placeholder="Initial Date" name="fechaInicial"
+                  [(ngModel)]="servicioTecnico.fechaInicial">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Final Date</label>
+                  <input type="datetime-local" class="form-control" placeholder="Final Date" name="fechaFinal"
+                  [(ngModel)]="servicioTecnico.fechaFinal">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Status</label>
+                  <input type="hidden" class="form-control" placeholder="Status" name="idEstado"
+                    [(ngModel)]="servicioTecnico.idEstado">
+                  <div class="btn-group" role="group" aria-label="Basic example"
+                    style="margin-top: -10px; cursor: pointer;">
+                    <button type="button" class="btn btn-info btn-round" 
+                      (click)="servicioTecnico.idEstado=0" [disabled]="servicioTecnico.idEstado == 0">New</button>
+                    <button type="button" class="btn btn-warning btn-round" 
+                      (click)="servicioTecnico.idEstado=1" [disabled]="servicioTecnico.idEstado == 1">Processing</button>
+                    <button type="button" class="btn btn-success btn-round" 
+                      (click)="servicioTecnico.idEstado=2" [disabled]="servicioTecnico.idEstado == 2">Finished</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-8">
+              </div>
+              <div class="col-md-2 col-xs-2"><br>
+                <button type="submit" class="btn btn-primary btn-block btn-round btn-sm">Save</button>
+              </div>
+              <div class="col-md-2 col-xs-2"><br>
+                <button type="button" class="btn btn-default btn-block btn-round btn-sm"
+                  (click)="showForm = false; servicioTecnico = null">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" *ngIf="showForm">
+      <div class="card text-center">
+        <div class="card-body">
+          <div class="author">
+            <h5 class="title text-primary">{{servicioTecnico.tecnico.fullName}}</h5>
+            <hr>
+            <h5 class="title text-primary">{{servicioTecnico.servicio.name}}</h5>
+            <hr>
+            <p class="description">
+              <b>ServicioTecnico start:</b> {{fechaInicial}}
+            </p>
+            <p class="description">
+              <b>ServicioTecnico end:</b> {{fechaFinal}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn btn-primary btn-sm pull-right" (click)="formNewServicioTecnico();">
+            Add <i class="fa fa-plus"></i>
+          </button>
+          <h5 class="title">ServicioTecnicos' list</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <th>Id</th>
+                <th>Tecnico's name</th>
+                <th>Servicio's name</th>
+                <th>Date initial</th>
+                <th>Date final</th>
+                <th>Status</th>
+                <th class="text-right">Actions</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let servicioTecnico of servicioTecnicos">
+                  <td>{{servicioTecnico.id}}</td>
+                  <td>{{servicioTecnico.tecnico.nombreCompleto}}</td>
+                  <td>{{servicioTecnico.servicio.nombre}}</td>
+                  <td *ngIf="servicioTecnico.fechaInicial">{{servicioTecnico.fechaInicial | date:'EEEE, MMMM d, y, h:mm:ss a'}}</td>
+                  <td *ngIf="!servicioTecnico.fechaInicial">-- . -- . --</td>
+                  <td *ngIf="servicioTecnico.fechaFinal">{{servicioTecnico.fechaFinal | date:'EEEE, MMMM d, y, h:mm:ss a'}}</td>
+                  <td *ngIf="!servicioTecnico.fechaFinal">-- . -- . --</td>
+                  <td *ngIf="servicioTecnico.idEstado == 0"><span class="badge badge-pill badge-info">New</span></td>
+                  <td *ngIf="servicioTecnico.idEstado == 1"><span class="badge badge-pill badge-warning">Processing</span></td>
+                  <td *ngIf="servicioTecnico.idEstado == 2"><span class="badge badge-pill badge-success">Finished</span></td>
+                  <td class="text-right">
+                    <button class="btn btn-neutral" (click)="selectServicioTecnico(servicioTecnico)">
+                      <i class="fas fa-external-link-alt fa-2x"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,99 @@
+<div class="panel-header panel-header-sm"></div>
+
+<div class="main-content">
+    
+  <div class="row">
+    <div class="col-md-9" *ngIf="showForm" >
+      <div class="card">
+        <div class="card-header">
+          <h5 class="title"> Tecnico's Form</h5>
+        </div>
+        <div class="card-body">
+          <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+            <div class="row">
+              <input type="hidden" class="form-control" placeholder="id" name="id"  [(ngModel)]="tecnico.id">
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Document</label>
+                  <input type="text" class="form-control" placeholder="Document" name="numeroDocumento"  [(ngModel)]="tecnico.numeroDocumento">
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label>Full Name</label>
+                  <input type="text" class="form-control" placeholder="Full Name" name="nombreCompleto" [(ngModel)]="tecnico.nombreCompleto">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Phone</label>
+                  <input type="text" class="form-control" placeholder="Phone" name="telefono"  [(ngModel)]="tecnico.telefono">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 col-xs-2"><br>
+                <button type="submit" class="btn btn-primary btn-block btn-round btn-sm">Save</button>
+              </div>
+              <div class="col-md-2 col-xs-2"><br>
+                <button type="button" class="btn btn-default btn-block btn-round btn-sm" (click)="showForm = false; tecnico = null">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" *ngIf="showForm">
+      <div class="card" align="center">
+        <div class="card-body">
+          <div class="author">
+            <h5 class="title text-primary">{{tecnico.nombreCompleto}}</h5>
+            <hr>
+            <p class="description">
+              <b>Document:</b> {{tecnico.numeroDocumento}}
+            </p>
+            <p class="description">
+              <b>Contact:</b> {{tecnico.telefono}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <button type="button" class="btn btn-primary btn-sm pull-right" (click)="formNewTecnico();">
+            Add <i class="fa fa-plus"></i>
+          </button>
+          <h5 class="title">Tecnicos' list</h5>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table">
+              <thead class=" text-primary">
+                <th>Document</th>
+                <th>Full Name</th>
+                <th>Phone</th>
+                <th class="text-right">Actions</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let tecnico of tecnicos">
+                  <td>{{tecnico.numeroDocumento}}</td>
+                  <td>{{tecnico.nombreCompleto}}</td>
+                  <td>{{tecnico.telefono}}</td>
+                  <td class="text-right">
+                    <button class="btn btn-neutral" (click)="selectTecnico(tecnico)">
+                      <i class="fas fa-external-link-alt fa-2x"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
